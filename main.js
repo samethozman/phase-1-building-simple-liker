@@ -2,7 +2,38 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
+//Create array of all like buttons
+const arrayOfLikes = Array.from(document.querySelectorAll('ul span'));
+
+//iterate through each like button
+arrayOfLikes.forEach( (heartButton) => {
+
+//function to turn heart full/empty
+function likeFunction() {
+  //mimic fetch in response to user action
+  mimicServerCall()
+  .then( () => {
+   if (heartButton.innerText === EMPTY_HEART) {
+      heartButton.innerText = FULL_HEART;
+      heartButton.className = 'like-glyph activated-heart';
+   }
+   else if (heartButton.innerText === FULL_HEART) {
+      heartButton.innerText = EMPTY_HEART;
+      heartButton.className = 'like-glyph';
+   }
+  }
+  )
+  .catch(() => {
+  document.querySelector('#modal').className = ''
+  document.querySelector('#modal').innerText = "Random server error. Try again."
+  setTimeout(() => {document.querySelector('#modal').className = 'hidden'}, 3000)
+  })
+}
+
+//add event listener to heart
+heartButton.addEventListener('click', likeFunction);
+})
+
 
 
 
